@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{font-family:Mukta,sans-serif}
+body{margin:0}
+
+/* ===== POSTER ===== */
+.poster{
+ width:1080px;
+ height:720px;
+ background:linear-gradient(135deg,#f6f8f6,#d9e4dc);
+ text-align:center;
+ padding:20px 30px;
+ position:relative;
+ overflow:hidden;
+}
+
+/* keep content above background */
+.poster > *{
+ position:relative;
+ z-index:1;
+}
+
+.top{
+ border:2px solid #000;
+ border-radius:14px;
+ padding:18px 46px;
+ display:inline-block;
+ font-size:60px;
+ font-weight:700;
+ background:#fff
+}
+
+.sub{
+ margin-top:40px;
+ font-size:40px;
+ font-weight:600
+}
+
+.pill{
+ margin-top:50px;
+ padding:16px 40px;
+ background:#1f7a4d;
+ color:#fff;
+ font-size:30px;
+ font-weight:700;
+ border-radius:40px;
+ display:inline-block
+}
+
+.dates{
+ margin-top:40px;
+ font-size:25px;
+ line-height:1.4
+}
+
+.cta{
+ margin-top:50px;
+ padding:18px 50px;
+ background:#1f7a4d;
+ color:#fff;
+ font-size:28px;
+ font-weight:700;
+ border-radius:50px;
+ display:inline-block
+}
+
+.cta .arrow{
+ font-weight:900;
+ margin-right:10px;
+}
+
+/* 🔹 Footer logo instead of text */
+.footer{
+ margin-top:30px;
+}
+
+.footer img{
+ height:48px;        /* logo size */
+ opacity:0.9;
+}
+</style>
+</head>
+
+<body>
+<div class="poster">
+  <div class="top">{{TOP}}</div>
+  <div class="sub">{{SUB}}</div>
+  <div class="pill">{{HIGHLIGHT}}</div>
+  <div class="dates">{{DATES}}</div>
+
+  <div class="cta">
+    <span class="arrow">&gt;</span> {{BTN}}
+  </div>
+
+  <!-- Footer Logo -->
+  <div class="footer">
+   <img src="https://jobling.in/wp-content/uploads/2025/12/JobLingin.webp" alt="JobLing.in">
+  </div>
+</div>
+</body>
+</html>

@@ -1,12 +1,13 @@
 const express = require("express");
 const puppeteer = require("puppeteer-core");
+const chromium = require("@sparticuz/chromium");
 const fs = require("fs");
 const path = require("path");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
-// Home page form
+// Home page
 app.get("/", (req, res) => {
   res.send(`
   <html>
@@ -44,7 +45,6 @@ app.get("/", (req, res) => {
         border:none;
         cursor:pointer;
       }
-      button:hover{opacity:0.9}
     </style>
   </head>
 
@@ -60,8 +60,8 @@ app.get("/", (req, res) => {
 
       <input name="TOP" placeholder="Top Title">
       <input name="SUB" placeholder="Subtitle">
-      <input name="HIGHLIGHT" placeholder="Highlight (e.g. Graduate Level)">
-      <textarea name="DATES" placeholder="Dates / Exam Date / Result Info"></textarea>
+      <input name="HIGHLIGHT" placeholder="Highlight">
+      <textarea name="DATES" placeholder="Dates / Exam / Result Info"></textarea>
 
       <button type="submit">Create Image</button>
     </form>
@@ -70,7 +70,7 @@ app.get("/", (req, res) => {
   `);
 });
 
-// Generate image
+// Generate poster
 app.post("/generate", async (req, res) => {
   try {
     let html = fs.readFileSync(path.join(__dirname, "template.html"), "utf8");
@@ -87,18 +87,15 @@ app.post("/generate", async (req, res) => {
       BTN
     };
 
-    for (let key in data) {
-      html = html.replace(new RegExp(`{{${key}}}`, "g"), data[key]);
+    for (let k in data) {
+      html = html.replace(new RegExp(`{{${k}}}`, "g"), data[k]);
     }
 
     const browser = await puppeteer.launch({
-      executablePath: "/usr/bin/chromium-browser",
-      headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage"
-      ]
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless
     });
 
     const page = await browser.newPage();
@@ -112,9 +109,10 @@ app.post("/generate", async (req, res) => {
 
     res.set("Content-Type", "image/webp");
     res.send(buffer);
+
   } catch (err) {
     console.error(err);
-    res.status(500).send("Image generation failed");
+    res.status(500).send("Poster generation failed");
   }
 });
 
